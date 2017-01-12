@@ -13,7 +13,7 @@ unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
 unpack /filesystem/root_init /
 
-#apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5B393194
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5B393194
 
 apt-get update
 
