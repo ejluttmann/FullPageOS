@@ -1,0 +1,3 @@
+#!/bin/bash
+epiphany-browser -a --profile ~/.config $(head -n 1 /boot/fullpageos.txt)
+

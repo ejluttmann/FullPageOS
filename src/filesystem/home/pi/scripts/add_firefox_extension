@@ -1,0 +1,36 @@
+#!/bin/bash
+extensionnumber=$1
+
+# find profile dir (first profile in the ini file)
+extensiondir="/usr/lib/firefox-esr/browser/extensions/"
+
+if [ -z "$extensiondir" ]; then
+    printf "Can't find extension directory."
+    exit 1
+fi
+
+mkdir /tmp/extension
+cd /tmp/extension || exit $?
+
+# get extension and unzip
+wget -O extension.xpi "https://addons.mozilla.org/firefox/downloads/latest/${extensionnumber}/addon-${extensionnumber}-latest.xpi" || exit $?
+unzip extension.xpi && rm extension.xpi
+
+# get extension id from installation file
+extensionid=`grep -m 1 -e em:id install.rdf`   
+extensionid=${extensionid#*\>}
+extensionid=${extensionid%<*}
+
+# move all files to the directory with the right id
+mkdir $extensionid || exit $?
+shopt -s extglob dotglob
+mv !($extensionid) $extensionid/
+shopt -u dotglob
+
+# create new firefox extension dir (if it's a clean install) and move the extension
+mkdir -p "${extensiondir}"
+mv "${extensionid}" "${extensiondir}"
+
+rmdir /tmp/extension
+printf "Installed extension."
+exit 0

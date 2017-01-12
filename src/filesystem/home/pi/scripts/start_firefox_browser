@@ -1,0 +1,2 @@
+#!/bin/bash
+firefox $(head -n 1 /boot/fullpageos.txt)
